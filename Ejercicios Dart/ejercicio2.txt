@@ -1,0 +1,72 @@
+import 'dart:convert';
+import 'dart:io';
+
+Future<Map<String, dynamic>> leerJson(String path) async {
+  final contenido = await File(path).readAsString();
+  return jsonDecode(contenido);
+}
+
+Future<void> escribirJson(String path, Map<String, dynamic> datos) async {
+  final encoder = JsonEncoder.withIndent('  ');
+  await File(path).writeAsString(encoder.convert(datos));
+}
+
+// Mostrar por consola todas las rutas
+void mostrarRutas(List rutas) {
+  print('--- Rutas ---');
+  for (var r in rutas) {
+    print('${r['ruta']} | icono: ${r['icon']} | texto: ${r['texto']}');
+  }
+}
+
+// Agregar una ruta
+Future<void> agregarRuta(
+    List rutas, String ruta, String icon, String texto) async {
+  rutas.add({
+    'ruta': ruta,
+    'icon': icon,
+    'texto': texto,
+  });
+  await Future.delayed(Duration(seconds: 1));
+  print("Ruta '$ruta' añadida.");
+}
+
+// Modificar icono y texto de una ruta dada
+Future<void> modificarRuta(
+    List rutas, String ruta, String nuevoIcon, String nuevoTexto) async {
+  final index = rutas.indexWhere((r) => r['ruta'] == ruta);
+  if (index == -1) {
+    print("Ruta '$ruta' no encontrada.");
+    return;
+  }
+  rutas[index]['icon'] = nuevoIcon;
+  rutas[index]['texto'] = nuevoTexto;
+  await Future.delayed(Duration(seconds: 1));
+  print("Ruta '$ruta' modificada.");
+}
+
+// Eliminar una ruta dada
+Future<void> eliminarRuta(List rutas, String ruta) async {
+  rutas.removeWhere((r) => r['ruta'] == ruta);
+  await Future.delayed(Duration(seconds: 1));
+  print("Ruta '$ruta' eliminada.");
+}
+
+void main() async {
+  final path = 'menu_opts.json';
+  Map<String, dynamic> datos = await leerJson(path);
+  List rutas = datos['rutas'];
+
+  mostrarRutas(rutas);
+
+  await agregarRuta(rutas, 'settings', 'settings', 'Configuración');
+
+  await modificarRuta(rutas, 'avatar', 'face', 'Perfil de usuario');
+
+  await eliminarRuta(rutas, 'slider');
+
+  await escribirJson(path, datos);
+
+  print('--- JSON actualizado ---');
+  mostrarRutas(rutas);
+}

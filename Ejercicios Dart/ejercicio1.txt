@@ -1,0 +1,58 @@
+import 'dart:convert';
+import 'dart:io';
+
+Future<Map<String, dynamic>> leerJson(String path) async {
+  final contenido = await File(path).readAsString();
+  return jsonDecode(contenido);
+}
+
+Future<void> escribirJson(String path, Map<String, dynamic> datos) async {
+  final encoder = JsonEncoder.withIndent('  ');
+  await File(path).writeAsString(encoder.convert(datos));
+}
+
+void mostrarPendientes(List recordatorios) {
+  final ahora = DateTime.now();
+  print('--- Pendientes ---');
+  for (var r in recordatorios) {
+    final fecha = DateTime.parse(r['fecha']);
+    if (fecha.isAfter(ahora)) {
+      final f = '${fecha.day.toString().padLeft(2, '0')}/'
+          '${fecha.month.toString().padLeft(2, '0')}/'
+          '${fecha.year} ${fecha.hour.toString().padLeft(2, '0')}:'
+          '${fecha.minute.toString().padLeft(2, '0')}';
+      print('${r['titulo']} - $f');
+    }
+  }
+}
+
+Future<void> agregarRecordatorio(
+    List recordatorios, String titulo, String fechaTexto) async {
+  DateTime fecha = DateTime.parse(fechaTexto); // "yyyy-MM-dd HH:mm" -> DateTime
+  recordatorios.add({
+    'titulo': titulo,
+    'fecha': fecha.toString(),
+  });
+  await Future.delayed(Duration(seconds: 1));
+  print("Recordatorio '$titulo' añadido.");
+}
+
+void eliminarRecordatorio(List recordatorios, String titulo) {
+  recordatorios.removeWhere((r) => r['titulo'] == titulo);
+}
+
+void main() async {
+  final path = 'recordatorios.json';
+  Map<String, dynamic> datos = await leerJson(path);
+  List recordatorios = datos['recordatorios'];
+
+  mostrarPendientes(recordatorios);
+
+  await agregarRecordatorio(recordatorios, 'Recibirse', '2026-11-10 10:00');
+  eliminarRecordatorio(recordatorios, 'Reunión con cliente');
+
+  await escribirJson(path, datos);
+
+  print('--- JSON actualizado ---');
+  print(JsonEncoder.withIndent('  ').convert(datos));
+}
