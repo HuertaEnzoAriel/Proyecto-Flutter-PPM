@@ -1,14 +1,35 @@
 import 'dart:convert';
-import 'dart:io';
 
-Future<Map<String, dynamic>> leerJson(String path) async {
-  final contenido = await File(path).readAsString();
-  return jsonDecode(contenido);
+// ==========================================
+// "Fuente de datos": simula la lectura del archivo.
+// Si corrés esto localmente con el SDK de Dart, reemplazá
+// el cuerpo de esta función por:
+//   return jsonDecode(await File('menu_opts.json').readAsString());
+// ==========================================
+Future<Map<String, dynamic>> leerJson() async {
+  const contenidoArchivo = '''
+  {
+    "nombreApp": "Componentes",
+    "rutas": [
+      { "ruta": "alert", "icon": "add_alert", "texto": "Alertas" },
+      { "ruta": "avatar", "icon": "accessibility", "texto": "Avatars" },
+      { "ruta": "card", "icon": "folder_open", "texto": "Cards - Tarjetas" },
+      { "ruta": "animatedContainer", "icon": "donut_large", "texto": "Animated Container" },
+      { "ruta": "inputs", "icon": "input", "texto": "Inputs" },
+      { "ruta": "slider", "icon": "tune", "texto": "Slider - Checks" },
+      { "ruta": "list", "icon": "list", "texto": "Listas y Scroll" }
+    ]
+  }
+  ''';
+
+  await Future.delayed(Duration(milliseconds: 300)); // simula I/O
+  return jsonDecode(contenidoArchivo);
 }
 
-Future<void> escribirJson(String path, Map<String, dynamic> datos) async {
-  final encoder = JsonEncoder.withIndent('  ');
-  await File(path).writeAsString(encoder.convert(datos));
+// Simula la escritura del archivo (en local sería File.writeAsString)
+Future<void> escribirJson(Map<String, dynamic> datos) async {
+  await Future.delayed(Duration(milliseconds: 300));
+  print('(Simulación) Archivo actualizado correctamente.');
 }
 
 // Mostrar por consola todas las rutas
@@ -53,8 +74,7 @@ Future<void> eliminarRuta(List rutas, String ruta) async {
 }
 
 void main() async {
-  final path = 'menu_opts.json';
-  Map<String, dynamic> datos = await leerJson(path);
+  Map<String, dynamic> datos = await leerJson();
   List rutas = datos['rutas'];
 
   mostrarRutas(rutas);
@@ -65,8 +85,8 @@ void main() async {
 
   await eliminarRuta(rutas, 'slider');
 
-  await escribirJson(path, datos);
+  await escribirJson(datos);
 
   print('--- JSON actualizado ---');
-  mostrarRutas(rutas);
+  print(JsonEncoder.withIndent('  ').convert(datos));
 }
