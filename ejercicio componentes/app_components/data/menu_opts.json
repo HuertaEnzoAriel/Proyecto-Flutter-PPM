@@ -14,6 +14,11 @@
             "ruta" : "card",
             "icon" : "folder_open",
             "texto": "Cards - Tarjetas"
+        },
+        {
+            "ruta" : "contador",
+            "icon" : "add_circle",
+            "texto": "Contador"
         }
     ]
 }
