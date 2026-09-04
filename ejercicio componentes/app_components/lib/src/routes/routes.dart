@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../pages/alert_page.dart';
 import '../pages/animatedContainer_page.dart';
 import '../pages/avatar_page.dart';
+import '../pages/card_page.dart';
 import '../pages/cards_page.dart';
 import '../pages/home_page.dart';
 import '../pages/imagen_page.dart';
@@ -16,12 +17,14 @@ Map<String, WidgetBuilder> getAplicationsRoutes() {
     "/": (BuildContext context) => const HomePage(),
     "alert": (BuildContext context) => const AlertPage(),
     "avatar": (BuildContext context) => const AvatarPage(),
-    "card": (BuildContext context) => const CardsPage(),
+    "cards": (BuildContext context) => const CardsPage(),
     "contador": (BuildContext context) => const ContadorPage(),
-    "animatedContainer": (BuildContext context) => const AnimatedContainerPage(),
+    "animatedContainer": (BuildContext context) =>
+        const AnimatedContainerPage(),
     "inputs": (BuildContext context) => const InputsPage(),
     "slider": (BuildContext context) => const SliderPage(),
     "list": (BuildContext context) => const ListPage(),
     "imagen": (BuildContext context) => const ImagenPage(),
+    "card": (BuildContext context) => const CardPage(),
   };
 }
