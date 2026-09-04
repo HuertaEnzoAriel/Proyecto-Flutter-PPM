@@ -5,6 +5,11 @@ final Map<String, dynamic> _icons = {
   "accessibility": Icons.accessibility,
   "folder_open": Icons.folder_open,
   "add_circle": Icons.add_circle,
+  "donut_large": Icons.donut_large,
+  "input": Icons.input,
+  "tune": Icons.tune,
+  "list": Icons.list,
+  "image": Icons.image,
 };
 
 Icon getIcon(String icon) {

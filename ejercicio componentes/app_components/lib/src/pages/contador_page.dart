@@ -18,6 +18,7 @@ class _ContadorPage extends State<ContadorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text("Contador")),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
