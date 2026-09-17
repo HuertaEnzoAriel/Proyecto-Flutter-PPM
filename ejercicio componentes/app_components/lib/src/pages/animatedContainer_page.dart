@@ -14,7 +14,7 @@ class _AnimatedContainerPageState extends State<AnimatedContainerPage> {
   double _width = 50.0;
   double _height = 50.0;
   Color _color = Colors.blue;
-  BorderRadiusGeometry _borderRadius = BorderRadius.circular(8.0);
+  final BorderRadiusGeometry _borderRadius = BorderRadius.circular(8.0);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,8 +37,8 @@ class _AnimatedContainerPageState extends State<AnimatedContainerPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.play_arrow),
         onPressed: _cambiarForma,
+        child: Icon(Icons.play_arrow),
       ),
     );
   }

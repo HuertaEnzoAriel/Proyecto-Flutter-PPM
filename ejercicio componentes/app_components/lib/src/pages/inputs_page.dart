@@ -1,14 +1,27 @@
 import 'package:flutter/material.dart';
 
-class InputPage extends StatefulWidget {
-  const InputPage({super.key});
+class InputsPage extends StatefulWidget {
+  const InputsPage({super.key});
   @override
-  State<InputPage> createState() => _InputPageState();
+  State<InputsPage> createState() => _InputPageState();
 }
 
-class _InputPageState extends State<InputPage> {
+class _InputPageState extends State<InputsPage> {
   String _nombre = '';
   String _email = '';
+  String _fecha = '';
+  //Elementos del dropdown
+  final List<String> _profesiones = [
+    'Sin dato',
+    'Contador',
+    'Abogado',
+    'Ingeniero',
+    'Periodista',
+    'Programador',
+  ];
+  //Opción que se selecciona en el dropdown
+  String _opcionSeleccionadaDropdown = 'Sin dato';
+  final TextEditingController _inputFieldController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,12 +29,15 @@ class _InputPageState extends State<InputPage> {
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
         children: [
-          //Llamamos al método que nos devuelve el formulario
           _crearInput(),
           Divider(),
           _crearEmail(),
           Divider(),
           _crearPassword(),
+          Divider(),
+          _crearFecha(context),
+          Divider(),
+          _crearDropdown(),
           Divider(),
           _crearPersona(),
         ],
@@ -53,7 +69,6 @@ class _InputPageState extends State<InputPage> {
   //Widget para generar un inputs para email
   Widget _crearEmail() {
     return TextField(
-      //keyboardType permite que en el teclado del dispositivo móvil se encuentre accesible el arroba (@) con el fin de escribir las direcciones de correo con mayor facilidad
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
@@ -73,7 +88,6 @@ class _InputPageState extends State<InputPage> {
   //Widget para generar un inputs para password
   Widget _crearPassword() {
     return TextField(
-      //obscureText permite ocultar los caracteres que se ingresan en un input reemplazandolos por asteriscos
       obscureText: true,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
@@ -88,10 +102,79 @@ class _InputPageState extends State<InputPage> {
     );
   }
 
+  //Widget para generar un inputs para seleccionar una fecha
+  Widget _crearFecha(BuildContext context) {
+    return TextField(
+      enableInteractiveSelection: false,
+      controller: _inputFieldController,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+        hintText: 'Fecha de nacimiento',
+        labelText: 'Fecha de nacimiento',
+        suffixIcon: Icon(Icons.perm_contact_calendar),
+        icon: Icon(Icons.calendar_today),
+      ),
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+        _selectDate(context);
+      },
+    );
+  }
+
+  //Widget para lanzar un modal con el calendario para seleccionar
+  Future<DateTime?> _selectDate(BuildContext context) async {
+    DateTime? calendario = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2022),
+      lastDate: DateTime(2024),
+      locale: Locale('es', 'ES'),
+    );
+    if (calendario != null) {
+      setState(() {
+        _fecha = calendario.toString();
+        _inputFieldController.text = _fecha;
+      });
+    }
+    return calendario;
+  }
+
+  //Se genera la lista de elementos para el dropdown
+  List<DropdownMenuItem<String>> getOpcionesDropdown() {
+    List<DropdownMenuItem<String>> lista = [];
+    for (var profesion in _profesiones) {
+      lista.add(DropdownMenuItem(value: profesion, child: Text(profesion)));
+    }
+    return lista;
+  }
+
+  //Widget para generar un dropdown
+  Widget _crearDropdown() {
+    return Row(
+      children: <Widget>[
+        Icon(Icons.select_all),
+        SizedBox(width: 30.0),
+        Expanded(
+          child: DropdownButton(
+            //Valor por defecto del dropdown
+            value: _opcionSeleccionadaDropdown,
+            items: getOpcionesDropdown(),
+            onChanged: (opt) {
+              setState(() {
+                _opcionSeleccionadaDropdown = opt.toString();
+              });
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _crearPersona() {
     return ListTile(
       title: Text('Nombre es: $_nombre'),
       subtitle: Text('Email: $_email'),
+      trailing: Text(_opcionSeleccionadaDropdown),
     );
   }
 }

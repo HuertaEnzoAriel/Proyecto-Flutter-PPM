@@ -19,7 +19,7 @@ Map<String, WidgetBuilder> getAplicationsRoutes() {
     "contador": (BuildContext context) => const ContadorPage(),
     "animatedContainer": (BuildContext context) =>
         const AnimatedContainerPage(),
-    "inputs": (BuildContext context) => const InputPage(),
+    "inputs": (BuildContext context) => const InputsPage(),
     "slider": (BuildContext context) => const SliderPage(),
     "list": (BuildContext context) => const ListPage(),
     "imagen": (BuildContext context) => const ImagenPage(),
