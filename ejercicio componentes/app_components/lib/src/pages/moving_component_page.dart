@@ -72,51 +72,47 @@ class _MovingComponentPageState extends State<MovingComponentPage>
 
   @override
   Widget build(BuildContext context) {
+    //El ancho de pantalla vía MediaQuery permite calcular el recorrido
+    //máximo y que el componente nunca sobrepase los límites visibles
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double maxX = screenWidth - _ancho;
+
     return Scaffold(
       appBar: AppBar(title: const Text('Componente en Movimiento')),
-      //LayoutBuilder entrega el tamaño real disponible del body, para
-      //calcular el recorrido máximo y que el componente nunca sobrepase
-      //los límites de la pantalla
-      body: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          final double maxX = constraints.maxWidth - _ancho;
-
-          return AnimatedBuilder(
-            animation: _xController,
-            builder: (BuildContext context, Widget? child) {
-              //Al no fijar "top", el Stack centra verticalmente el
-              //componente según su alineación, así el alto puede
-              //cambiar sin que la figura suba o baje nunca
-              return Stack(
-                alignment: Alignment.center,
-                children: [
-                  Positioned(
-                    left: _xController.value * maxX,
-                    child: child!,
-                  ),
-                ],
-              );
-            },
-            //AnimatedContainer suaviza el cambio de tamaño/color cada
-            //vez que setState actualiza esas propiedades
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 600),
-              width: _ancho,
-              height: _alto,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0),
-                color: _color,
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 8.0,
-                    offset: Offset(0.0, 4.0),
-                  ),
-                ],
+      body: AnimatedBuilder(
+        animation: _xController,
+        builder: (BuildContext context, Widget? child) {
+          //Al no fijar "top", el Stack centra verticalmente el
+          //componente según su alineación, así el alto puede
+          //cambiar sin que la figura suba o baje nunca
+          return Stack(
+            alignment: Alignment.center,
+            children: [
+              Positioned(
+                left: _xController.value * maxX,
+                child: child!,
               ),
-            ),
+            ],
           );
         },
+        //AnimatedContainer suaviza el cambio de tamaño/color cada
+        //vez que setState actualiza esas propiedades
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 600),
+          width: _ancho,
+          height: _alto,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.0),
+            color: _color,
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 8.0,
+                offset: Offset(0.0, 4.0),
+              ),
+            ],
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _mover,

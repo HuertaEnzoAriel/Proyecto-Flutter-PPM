@@ -55,6 +55,11 @@
             "ruta" : "movingComponent",
             "icon" : "swap_horiz",
             "texto": "Componente en Movimiento"
+        },
+        {
+            "ruta" : "listview",
+            "icon" : "swap_horiz",
+            "texto": "List View"
         }
 
     ]

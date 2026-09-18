@@ -28,5 +28,6 @@ Map<String, WidgetBuilder> getAplicationsRoutes() {
     "card": (BuildContext context) => const CardPage(),
     "welcome": (BuildContext context) => const WelcomePage(),
     "movingComponent": (BuildContext context) => const MovingComponentPage(),
+    "listview": (BuildContext context) => const ListPage(),
   };
 }
