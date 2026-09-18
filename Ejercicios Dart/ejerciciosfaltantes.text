@@ -1,0 +1,157 @@
+import 'dart:convert';
+
+// ==========================================
+// Variable global constante: géneros soportados
+// ==========================================
+const List<String> generosSoportados = ["Rock", "Electrónica", "Podcast", "Jazz"];
+
+// ==========================================
+// Mixin Auditable
+// Se encarga de dejar un registro (log) independiente
+// del método propio de la clase. Cualquier clase que lo
+// use "with Auditable" gana esta capacidad sin herencia.
+// ==========================================
+mixin Auditable {
+  void auditar(String evento) {
+    print("[AUDITORÍA] ${DateTime.now()} -> $evento");
+  }
+}
+
+// ==========================================
+// Clase PistaAudio
+// Atributos inmutables (final) + un atributo mutable (estado)
+// ==========================================
+class PistaAudio with Auditable {
+  final String id;
+  final String titulo;
+  final String artista;
+  final int duracionSegundos;
+
+  String estado; // mutable: "Detenido" | "Reproduciendo" | "Pausado"
+
+  PistaAudio({
+    required this.id,
+    required this.titulo,
+    required this.artista,
+    required this.duracionSegundos,
+    this.estado = "Detenido",
+  });
+
+  // Registra la fecha/hora exacta junto con el evento (acción del usuario)
+  void registrarReproduccion(String accion) {
+    print("${DateTime.now()} - $accion (Pista: $titulo)");
+  }
+
+  @override
+  String toString() =>
+      "$titulo - $artista (${duracionSegundos}s) [$estado]";
+}
+
+// ==========================================
+// Manejador de Pistas (Playlist)
+// ==========================================
+class ManejadorPistas {
+  final List<PistaAudio> _pistas = [];
+
+  List<PistaAudio> get pistas => List.unmodifiable(_pistas);
+
+  void agregarPista(PistaAudio pista) {
+    _pistas.add(pista);
+  }
+
+  // Nueva lista con pistas de duración > 180s, sin modificar la original
+  List<PistaAudio> filtrarLargas() {
+    return _pistas.where((p) => p.duracionSegundos > 180).toList();
+  }
+
+  // Solo los títulos, para el mini-player
+  Iterable<String> obtenerTitulos() {
+    return _pistas.map((p) => p.titulo);
+  }
+
+  // Duración total de la playlist (en segundos), usando fold
+  int duracionTotal() {
+    return _pistas.fold<int>(0, (acumulado, pista) => acumulado + pista.duracionSegundos);
+  }
+
+  // Alternativa equivalente usando reduce (requiere lista no vacía)
+  int duracionTotalConReduce() {
+    if (_pistas.isEmpty) return 0;
+    return _pistas
+        .map((p) => p.duracionSegundos)
+        .reduce((total, actual) => total + actual);
+  }
+}
+
+// ==========================================
+// Utilidad para mostrar segundos en formato mm:ss
+// ==========================================
+String formatearDuracion(int segundos) {
+  final minutos = segundos ~/ 60;
+  final segs = segundos % 60;
+  return "${minutos}m ${segs.toString().padLeft(2, '0')}s";
+}
+
+void main() {
+  // ---------- 2.2.1 ----------
+  print("Géneros soportados: $generosSoportados\n");
+
+  final pista1 = PistaAudio(
+    id: "1",
+    titulo: "Bohemian Rhapsody",
+    artista: "Queen",
+    duracionSegundos: 355,
+  );
+
+  pista1.estado = "Reproduciendo";
+  pista1.registrarReproduccion("Play presionado");
+  pista1.auditar("Estado cambiado a Reproduciendo");
+
+  print("");
+
+  // ---------- 2.2.2 ----------
+  final manejador = ManejadorPistas();
+
+  manejador.agregarPista(pista1);
+  manejador.agregarPista(PistaAudio(
+    id: "2",
+    titulo: "Blinding Lights",
+    artista: "The Weeknd",
+    duracionSegundos: 200,
+  ));
+  manejador.agregarPista(PistaAudio(
+    id: "3",
+    titulo: "Episodio 45 - IA en 2026",
+    artista: "Podcast Tech",
+    duracionSegundos: 2700,
+  ));
+  manejador.agregarPista(PistaAudio(
+    id: "4",
+    titulo: "Take Five",
+    artista: "Dave Brubeck",
+    duracionSegundos: 324,
+  ));
+  manejador.agregarPista(PistaAudio(
+    id: "5",
+    titulo: "Strobe",
+    artista: "Deadmau5",
+    duracionSegundos: 150,
+  ));
+
+  print("--- Playlist completa ---");
+  for (var p in manejador.pistas) {
+    print(p);
+  }
+
+  print("\n--- Pistas con duración > 180s ---");
+  for (var p in manejador.filtrarLargas()) {
+    print(p);
+  }
+
+  print("\n--- Títulos para el mini-player ---");
+  print(manejador.obtenerTitulos().toList());
+
+  print("\n--- Duración total de la playlist ---");
+  final totalSegundos = manejador.duracionTotal();
+  print("$totalSegundos segundos (${formatearDuracion(totalSegundos)})");
+}

@@ -9,7 +9,9 @@ import '../pages/home_page.dart';
 import '../pages/imagen_page.dart';
 import '../pages/inputs_page.dart';
 import '../pages/list_page.dart';
+import '../pages/moving_component_page.dart';
 import '../pages/slider_page.dart';
+import '../pages/welcome_page.dart';
 
 Map<String, WidgetBuilder> getAplicationsRoutes() {
   return <String, WidgetBuilder>{
@@ -24,5 +26,7 @@ Map<String, WidgetBuilder> getAplicationsRoutes() {
     "list": (BuildContext context) => const ListPage(),
     "imagen": (BuildContext context) => const ImagenPage(),
     "card": (BuildContext context) => const CardPage(),
+    "welcome": (BuildContext context) => const WelcomePage(),
+    "movingComponent": (BuildContext context) => const MovingComponentPage(),
   };
 }

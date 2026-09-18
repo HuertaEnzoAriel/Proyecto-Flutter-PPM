@@ -10,6 +10,8 @@ final Map<String, dynamic> _icons = {
   "tune": Icons.tune,
   "list": Icons.list,
   "image": Icons.image,
+  "celebration": Icons.celebration,
+  "swap_horiz": Icons.swap_horiz,
 };
 
 Icon getIcon(String icon) {

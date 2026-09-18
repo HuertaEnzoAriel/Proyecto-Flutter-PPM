@@ -41,10 +41,20 @@
             "icon" : "list", 
             "texto": "Listas y Scroll" 
         },
-        { 
-            "ruta" : "imagen", 
-            "icon" : "image", 
-            "texto": "Imagen Prueba" 
+        {
+            "ruta" : "imagen",
+            "icon" : "image",
+            "texto": "Imagen Prueba"
+        },
+        {
+            "ruta" : "welcome",
+            "icon" : "celebration",
+            "texto": "Bienvenida - Circulos Degrade"
+        },
+        {
+            "ruta" : "movingComponent",
+            "icon" : "swap_horiz",
+            "texto": "Componente en Movimiento"
         }
 
     ]
