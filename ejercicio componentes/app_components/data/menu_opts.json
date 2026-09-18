@@ -60,7 +60,13 @@
             "ruta" : "listview",
             "icon" : "swap_horiz",
             "texto": "List View"
+        },
+        {
+            "ruta" : "homeResponsive",
+            "icon" : "swap_horiz",
+            "texto": "Home Responsive"
         }
+
 
     ]
 }

@@ -6,6 +6,7 @@ import '../pages/animatedContainer_page.dart';
 import '../pages/avatar_page.dart';
 import '../pages/card_page.dart';
 import '../pages/home_page.dart';
+import '../pages/home_responsive_page.dart' show HomeResponsivePage;
 import '../pages/imagen_page.dart';
 import '../pages/inputs_page.dart';
 import '../pages/list_page.dart';
@@ -29,5 +30,6 @@ Map<String, WidgetBuilder> getAplicationsRoutes() {
     "welcome": (BuildContext context) => const WelcomePage(),
     "movingComponent": (BuildContext context) => const MovingComponentPage(),
     "listview": (BuildContext context) => const ListPage(),
+    "homeResponsive": (BuildContext context) => const HomeResponsivePage(),
   };
 }
