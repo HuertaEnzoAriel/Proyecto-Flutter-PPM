@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Hojas de la tijera -->
+  <line x1="22" y1="40" x2="44" y2="8" stroke="#C8A27A" stroke-width="4.5" stroke-linecap="round"/>
+  <line x1="42" y1="40" x2="20" y2="8" stroke="#C8A27A" stroke-width="4.5" stroke-linecap="round"/>
+  <!-- Mangos -->
+  <circle cx="18" cy="46" r="7" fill="none" stroke="#3D2C2E" stroke-width="4"/>
+  <circle cx="46" cy="46" r="7" fill="none" stroke="#3D2C2E" stroke-width="4"/>
+  <!-- Eje -->
+  <circle cx="32" cy="25.5" r="2.8" fill="#3D2C2E"/>
+</svg>

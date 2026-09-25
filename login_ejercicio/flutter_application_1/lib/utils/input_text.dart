@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'app_colors.dart';
+
 class InputText extends StatelessWidget {
 //Variable para almacenar el nombre de la etiqueta que se pasa por //parámetro
   final String label;
@@ -12,6 +14,8 @@ class InputText extends StatelessWidget {
 //Variable para almacenar el valor del tamaño de la fuente de un input
 //en un input
   final double fontSize;
+//Variable para almacenar el ícono que se muestra a la izquierda del input
+  final IconData? icon;
 
   const InputText(
       {super.key,
@@ -19,7 +23,8 @@ class InputText extends StatelessWidget {
       this.keyboardType = TextInputType.text,
       this.obscureText = false,
       this.borderEnable = true,
-      this.fontSize = 15});
+      this.fontSize = 15,
+      this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -33,20 +38,31 @@ class InputText extends StatelessWidget {
       // ignore: unnecessary_this
 //campos de contraseñas
       obscureText: obscureText,
+      cursorColor: AppColors.accentDark,
       //Se aplica el estilo de texto dentro de los inputs
-      style: TextStyle(fontSize: fontSize),
+      style: TextStyle(fontSize: fontSize, color: AppColors.primary),
       decoration: InputDecoration(
           labelText: label,
+          //Ícono opcional a la izquierda del input
+          prefixIcon: icon != null
+              ? Icon(icon, color: AppColors.accentDark, size: fontSize * 1.5)
+              : null,
           //Propiedad para reducir padding entre texto y borde del input
           contentPadding: const EdgeInsets.symmetric(vertical: 5),
           //Propiedad para establecer la configuración de los bordes en
           //los inputs
           enabledBorder: borderEnable
               ? const UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black45))
+                  borderSide: BorderSide(color: AppColors.muted))
+              : InputBorder.none,
+          focusedBorder: borderEnable
+              ? const UnderlineInputBorder(
+                  borderSide: BorderSide(color: AppColors.accent, width: 2))
               : InputBorder.none,
           labelStyle: const TextStyle(
-              color: Colors.black45, fontWeight: FontWeight.w500)),
+              color: AppColors.muted, fontWeight: FontWeight.w500),
+          floatingLabelStyle: const TextStyle(
+              color: AppColors.accentDark, fontWeight: FontWeight.w600)),
     );
   }
 }

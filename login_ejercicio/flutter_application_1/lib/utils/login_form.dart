@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'app_colors.dart';
 import 'input_text.dart';
 import 'responsive.dart';
 
@@ -13,6 +14,7 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     final Responsive responsive = Responsive.of(context);
+    final double inputFontSize = responsive.dp(responsive.isTablet ? 1.2 : 1.4);
 
     return Positioned(
       bottom: 5,
@@ -34,14 +36,15 @@ class _LoginFormState extends State<LoginForm> {
               InputText(
                 keyboardType: TextInputType.emailAddress,
                 label: 'Email',
-                fontSize: responsive.dp(responsive.isTablet ? 1.2 : 1.4),
+                icon: Icons.mail_outline,
+                fontSize: inputFontSize,
               ),
               SizedBox(height: responsive.dp(2)),
               //Input de contraseña
               Container(
                 //Borde inferior del input de la contraseña
                 decoration: const BoxDecoration(
-                  border: Border(bottom: BorderSide(color: Colors.black45)),
+                  border: Border(bottom: BorderSide(color: AppColors.muted)),
                 ),
                 child: Row(
                   children: <Widget>[
@@ -50,9 +53,8 @@ class _LoginFormState extends State<LoginForm> {
                         label: 'Contraseña',
                         obscureText: true,
                         borderEnable: false,
-                        fontSize: responsive.dp(
-                          responsive.isTablet ? 1.2 : 1.4,
-                        ),
+                        icon: Icons.lock_outline,
+                        fontSize: inputFontSize,
                       ),
                     ),
                     //Botón para recuperar contraseña
@@ -61,11 +63,9 @@ class _LoginFormState extends State<LoginForm> {
                       child: Text(
                         '¿Olvidó su contraseña?',
                         style: TextStyle(
-                          color: Colors.black,
+                          color: AppColors.accentDark,
                           fontWeight: FontWeight.bold,
-                          fontSize: responsive.dp(
-                            responsive.isTablet ? 1.2 : 1.4,
-                          ),
+                          fontSize: inputFontSize,
                         ),
                       ),
                     ),
@@ -77,17 +77,36 @@ class _LoginFormState extends State<LoginForm> {
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.pinkAccent,
+                    backgroundColor: AppColors.primary,
+                    elevation: 6,
+                    shadowColor: AppColors.primary.withValues(alpha: 0.4),
+                    //Botón tipo píldora
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
                   ),
                   onPressed: () {},
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 15),
-                    child: Text(
-                      'Ingresar',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: responsive.dp(1.5),
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.content_cut,
+                          color: AppColors.accent,
+                          size: responsive.dp(1.8),
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          'Ingresar',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: responsive.dp(1.5),
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 1,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -97,19 +116,19 @@ class _LoginFormState extends State<LoginForm> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    '¿Deseas registrarte?',
-                    style: TextStyle(fontSize: responsive.dp(1.5)),
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      shadowColor: Colors.white,
+                    '¿Primera vez por acá?',
+                    style: TextStyle(
+                      color: AppColors.muted,
+                      fontSize: responsive.dp(1.5),
                     ),
+                  ),
+                  TextButton(
                     onPressed: () {},
                     child: Text(
                       'Registrarse',
                       style: TextStyle(
-                        color: Colors.pinkAccent,
+                        color: AppColors.accentDark,
+                        fontWeight: FontWeight.bold,
                         fontSize: responsive.dp(1.5),
                       ),
                     ),
